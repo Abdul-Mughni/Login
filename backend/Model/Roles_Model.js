@@ -12,7 +12,7 @@ const Roles_model = mongoose.Schema(
     Status : {
         type : String,
         required : [true , " Status is required"],
-        unique : ["active","unactive"],
+        enum : ["active","unactive"],
         default: "active", //Default status is active
     },
 },
@@ -24,4 +24,4 @@ const Roles_model = mongoose.Schema(
 
 const Roles = mongoose.model("Roles", Roles_model)
 
-module.exports = {Roles}
+module.exports = Roles;

@@ -10,44 +10,50 @@ require("dotenv").config();
 // Middleware
 app.use(express.json());
 
-
+ const {
+    createRole,
+    getAllRole,
+    getRoleById,
+    updateRole,
+    deleteRole,
+  }= require("./Controllers/RoleController")
 // USER CONTROLLERS
-const UserController = require("../backend/Controllers/UserAccountController");
+const UserController = require("./Controllers/UserAccountController");
 // ROLE CONTROLLERS
-const RoleController = require('../backend/Controllers/RoleController');
+
 
 // Create a new role
-app.route('/').post(RoleController.createRole);
+app.route('/role').post(createRole);
 
 // Get all roles
-app.route('/').get(RoleController.getAllRoles);
+app.route('/role').get(getAllRole);
 
 // Get a role by ID
-app.route('/:id').get(RoleController.getRoleById);
+app.route('/role/:id').get(getRoleById);
 
 // Update a role by ID
-app.route('/:id').put(RoleController.updateRole);
+app.route('/role/:id').put(updateRole);
 
 // Delete a role by ID
-app.route('/:id').delete(RoleController.deleteRole);
+app.route('/role/:id').delete(deleteRole);
 
 
 
 
 // Create a new user account
-app.route("/").post(UserController.createUser);
+app.route("/user").post(UserController.createUser);
 
 // Get all user accounts
-app.route("/").get(UserController.getAllUsers);
+app.route("/user").get(UserController.getAllUsers);
 
 // Get a user account by ID
-app.route("/:id").get(UserController.getUserById);
+app.route("/user/:id").get(UserController.getUserById);
 
 // Update a user account by ID
-app.route("/:id").put(UserController.updateUser);
+app.route("/user/:id").put(UserController.updateUser);
 
 // Delete a user account by ID
-app.route("/:id").delete(UserController.deleteUser);
+app.route("/user/:id").delete(UserController.deleteUser);
 
 
 

@@ -5,18 +5,29 @@ const Roles = require('../Model/Roles_Model');
 const createRole = async (req, res) => {
   try {
     const { RoleName, Status } = req.body;
-    const newRole = new Role({ RoleName, Status });
+
+    // Validation: check if the necessary fields are provided
+    if (!RoleName || !Status) {
+      return res.status(400).json({ error: 'RoleName and Status are required' });
+    }
+
+    // Create and save the new role
+    const newRole = new Roles({ RoleName, Status });
     await newRole.save();
+
+    // Send success response
     res.status(201).json({ message: 'Role created successfully', newRole });
   } catch (error) {
+    // Log the error and send an error response
+    console.error('Error creating role:', error);
     res.status(400).json({ error: error.message });
   }
 };
 
 // GET all roles
-const getAllRoles = async (req, res) => {
+const getAllRole = async (req, res) => {
   try {
-    const roles = await Role.find();
+    const roles = await Roles.find();
     res.status(200).json(roles);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -26,7 +37,7 @@ const getAllRoles = async (req, res) => {
 // GET a role by ID
 const getRoleById = async (req, res) => {
   try {
-    const role = await Role.findById(req.params.id);
+    const role = await Roles.findById(req.params.id);
     if (!role) {
       return res.status(404).json({ message: 'Role not found' });
     }
@@ -40,7 +51,7 @@ const getRoleById = async (req, res) => {
 const updateRole = async (req, res) => {
   try {
     const { RoleName, Status } = req.body;
-    const updatedRole = await Role.findByIdAndUpdate(
+    const updatedRole = await Roles.findByIdAndUpdate(
       req.params.id,
       { RoleName, Status },
       { new: true }
@@ -57,7 +68,7 @@ const updateRole = async (req, res) => {
 // DELETE a role by ID
 const deleteRole = async (req, res) => {
   try {
-    const deletedRole = await Role.findByIdAndDelete(req.params.id);
+    const deletedRole = await Roles.findByIdAndDelete(req.params.id);
     if (!deletedRole) {
       return res.status(404).json({ message: 'Role not found' });
     }
@@ -70,8 +81,8 @@ const deleteRole = async (req, res) => {
 // Exporting CRUD functions at the end
 module.exports = {
   createRole,
-  getAllRoles,
+  getAllRole,
   getRoleById,
   updateRole,
-  deleteRole,
+  deleteRole
 };
